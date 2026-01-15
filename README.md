@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>SoleminerCloud</title>
     <style>
+        /* Removes all margins and scrollbars for a full-screen app feel */
         * {
             margin: 0;
             padding: 0;
@@ -19,8 +20,8 @@
             font-family: 'Segoe UI', sans-serif;
         }
 
-        /* Fullscreen Game Container */
-        .game-wrapper {
+        /* Container that forces the iframe to fill the entire window */
+        .viewport-container {
             position: fixed;
             top: 0;
             left: 0;
@@ -33,35 +34,27 @@
             width: 100%;
             height: 100%;
             border: none;
+            display: block;
         }
 
-        /* Panic Button UI (Visible helper) */
-        .panic-info {
+        /* Small status indicator (Hidden by default, shows on hover) */
+        .info-overlay {
             position: fixed;
-            top: 10px;
-            left: 10px;
-            background: rgba(0, 0, 0, 0.6);
-            color: rgba(255, 255, 255, 0.5);
-            padding: 5px 10px;
-            border-radius: 5px;
+            top: 5px;
+            right: 10px;
+            color: rgba(255, 255, 255, 0.2);
             font-size: 10px;
             z-index: 100;
             pointer-events: none;
-            transition: opacity 0.3s;
-        }
-
-        body:hover .panic-info {
-            opacity: 1;
         }
     </style>
 </head>
 <body>
 
-    <div class="panic-info">SoleminerCloud | Press "\" to Panic</div>
+    <div class="info-overlay">SoleminerCloud | Panic: 7</div>
 
-    <div class="game-wrapper">
+    <div class="viewport-container">
         <iframe 
-            id="game-frame"
             src="https://web.cloudmoonapp.com/" 
             allow="autoplay; fullscreen; keyboard"
             sandbox="allow-forms allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
@@ -69,20 +62,20 @@
     </div>
 
     <script>
-        // PANIC BUTTON LOGIC
-        // Redirects to Google Classroom instantly when "\" is pressed
-        document.addEventListener('keydown', function(e) {
-            if (e.key === "\\") {
-                window.location.href = "https://satchelone.com";
+        /**
+         * PANIC BUTTON TRIGGER
+         * Instantly redirects the current tab to Google Classroom 
+         * when the number "7" key is pressed.
+         */
+        document.addEventListener('keydown', function(event) {
+            // Check if the pressed key is the number 7
+            if (event.key === "7") {
+                window.location.replace("https://classroom.google.com");
             }
         });
 
-        // Error handling: if Moon Cloud link changes, try the mirror
-        const frame = document.getElementById('game-frame');
-        frame.onerror = function() {
-            console.log("Primary link failed, trying mirror...");
-            frame.src = "https://now.gg/apps/roblox-corporation/5349/roblox.html";
-        };
+        // Ensure the window has focus to detect the keypress
+        window.focus();
     </script>
 </body>
 </html>
